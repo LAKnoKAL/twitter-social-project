@@ -14,7 +14,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Router basename={import.meta.env.BASE_URL}>
+        <Router basename={import.meta.env.VITE_ROUTER_BASE_URL}>
           <Switch>
             <Route path="/" exact component={App} />
           </Switch>

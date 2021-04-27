@@ -1,7 +1,8 @@
 {
   "name": "twitter-social-project",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://laknokal.github.io/twitter-social-project",
+  "author": "Andrii Lavrenko",
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=./",
