@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { connect, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
+import { isPast } from 'date-fns'
 
 import { Formik, Form, Field } from 'formik'
 import { TextField } from 'formik-material-ui'
@@ -29,7 +30,7 @@ import {
 } from '../../store/actions/messages'
 import { getMessagesDialogState, getSelectedMessage } from '../../store/reducers/messages'
 
-import { TODAY } from '../../constants/dates'
+import { MIN_SCHEDULE_DATE } from '../../constants/dates'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -59,6 +60,7 @@ const MessagesDialog = ({
 
   const handleClose = useCallback(() => {
     setMessagesDialogState(false)
+    setSelectedMessage(null)
   }, [setMessagesDialogState])
 
   const handleSubmit = useCallback(values => {
@@ -67,7 +69,6 @@ const MessagesDialog = ({
         ...selectedMessage,
         ...values
       })
-      setSelectedMessage(null)
     } else {
       scheduleMessage({ id: uuidv4(), ...values })
     }
@@ -82,6 +83,10 @@ const MessagesDialog = ({
       errors.text = 'Required'
     } else if (values.text.length > 280) {
       errors.text = '280 Maximum amount of characters'
+    }
+
+    if (isPast(values.dateTime)) {
+      errors.dateTime = 'Schedule date and time must be in future'
     }
 
     return errors
@@ -117,7 +122,7 @@ const MessagesDialog = ({
         initialValues={{
           title: selectedMessage?.title || '',
           text: selectedMessage?.text || '',
-          dateTime: selectedMessage?.dateTime || TODAY,
+          dateTime: selectedMessage?.dateTime || MIN_SCHEDULE_DATE,
         }}
         validate={handleValidation}
         onSubmit={handleSubmit}
@@ -144,7 +149,7 @@ const MessagesDialog = ({
                     component={DateTimePicker}
                     name="dateTime"
                     label="Date Time"
-                    disablePast={true}
+                    disablePast
                     fullWidth={downSM}
                   />
                 </Grid>
