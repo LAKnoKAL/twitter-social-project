@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Container from '@material-ui/core/Container'
-import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
-import Typography from '@material-ui/core/Typography'
+import {
+  makeStyles,
+  Grid,
+  Container,
+  List,
+  Divider,
+  Typography
+} from '@material-ui/core'
 
 import MessagesItem from '../MessagesItem'
 
@@ -33,7 +35,9 @@ const MessagesList = () => {
         justify="center"
         alignItems="center"
       >
+        {/* necessary for content to be below app bar */}
         <div className={classes.toolbar} />
+
         <List className={classes.list}>
           {messages.map(message => (
             <Fragment key={`message-${message.id}`}>

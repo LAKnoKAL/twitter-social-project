@@ -7,20 +7,23 @@ import { Formik, Form, Field } from 'formik'
 import { TextField } from 'formik-material-ui'
 import { DateTimePicker } from 'formik-material-ui-pickers'
 
-import Box from '@material-ui/core/Box'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
+import {
+  useMediaQuery,
+  makeStyles,
+  useTheme,
 
-import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { makeStyles, useTheme } from '@material-ui/core/styles'
+  Box,
+  Grid,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormHelperText,
+  AppBar,
+  Toolbar,
+  Typography,
+} from '@material-ui/core'
 
 import {
   setMessagesDialogState,
@@ -30,10 +33,11 @@ import {
 } from '../../store/actions/messages'
 import { getMessagesDialogState, getSelectedMessage } from '../../store/reducers/messages'
 
-import { MIN_SCHEDULE_DATE } from '../../constants/dates'
+import { INITIAL_SCHEDULE_DATE } from '../../constants/dates'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
+    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'space-between'
   },
@@ -60,6 +64,7 @@ const MessagesDialog = ({
 
   const handleClose = useCallback(() => {
     setMessagesDialogState(false)
+    // clear selected message in edit dialog to prevent from keep opened
     setSelectedMessage(null)
   }, [setMessagesDialogState])
 
@@ -100,6 +105,7 @@ const MessagesDialog = ({
       fullWidth
       maxWidth="sm"
     >
+      {/* Mobile dialog bar */}
       {downSM && (
         <>
           <AppBar>
@@ -122,7 +128,7 @@ const MessagesDialog = ({
         initialValues={{
           title: selectedMessage?.title || '',
           text: selectedMessage?.text || '',
-          dateTime: selectedMessage?.dateTime || MIN_SCHEDULE_DATE,
+          dateTime: selectedMessage?.dateTime || INITIAL_SCHEDULE_DATE,
         }}
         validate={handleValidation}
         onSubmit={handleSubmit}
@@ -184,6 +190,7 @@ const MessagesDialog = ({
               >
                 Schedule Tweet
               </Button>
+              {/* Disabled for MVP */}
               <Button
                 onClick={handleClose}
                 color="secondary"
