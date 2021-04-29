@@ -100,7 +100,7 @@ const MessagesDialog = ({
   return (
     <Dialog
       fullScreen={downSM}
-      open={selectedMessage?.id || isMessagesDialogOpened}
+      open={!!selectedMessage?.id || isMessagesDialogOpened}
       onClose={handleClose}
       fullWidth
       maxWidth="sm"
